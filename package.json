@@ -1,0 +1,14 @@
+{
+  "name": "painel-incidentes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Painel de incidentes e SLA por cliente, sincronizado com o ClickUp",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"sync/*.test.js\" \"site/*.test.js\"",
+    "sync": "node sync/index.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

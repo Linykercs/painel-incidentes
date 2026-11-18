@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Incidentes P&G LATAM</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="view-loading" class="center-box">
+  <p data-i18n="loading">Cargando…</p>
+</div>
+
+<div id="view-login" class="center-box" hidden>
+  <form id="login-form" class="login-card">
+    <div class="login-logos">
+      <span class="logo-chip" id="login-product-chip"><img id="login-product-logo" hidden alt="" class="logo-sentry"></span>
+      <img id="login-client-logo" hidden alt="" class="logo-pg">
+    </div>
+    <h1 id="login-title">Seguimiento de Incidentes</h1>
+    <label>
+      <span data-i18n="email">Correo electrónico</span>
+      <input type="email" id="login-email" autocomplete="username" required>
+    </label>
+    <label>
+      <span data-i18n="password">Contraseña</span>
+      <input type="password" id="login-password" autocomplete="current-password" required>
+    </label>
+    <button type="submit" data-i18n="signIn">Ingresar</button>
+    <div class="login-sep"><span data-i18n="or">o</span></div>
+    <button type="button" id="btn-google" class="ghost btn-google">
+      <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C41 35.4 44 30.2 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      <span data-i18n="signInGoogle">Continuar con Google</span>
+    </button>
+    <p id="login-error" class="error" hidden></p>
+  </form>
+</div>
+
+<div id="view-noaccess" class="center-box" hidden>
+  <div class="login-card">
+    <p data-i18n="noAccess"></p>
+    <button id="noaccess-signout" data-i18n="signOut">Salir</button>
+  </div>
+</div>
+
+<div id="view-app" hidden>
+  <div class="toolbar no-print">
+    <div class="toolbar-left">
+      <label class="incident-filter"><span data-i18n="month">Mes</span>
+        <select id="month-select"></select>
+      </label>
+      <label class="dev-filter" hidden><span data-i18n="month">Mes</span>
+        <select id="dev-month-select"></select>
+      </label>
+      <label class="dev-filter" hidden><span data-i18n="filterControl">Origen</span>
+        <select id="dev-control-select"></select>
+      </label>
+      <label class="incident-filter"><span data-i18n="filterStatus">Estado</span>
+        <select id="status-select"></select>
+      </label>
+      <label class="incident-filter"><span data-i18n="filterReporter">Reportado por</span>
+        <select id="reporter-select"></select>
+      </label>
+    </div>
+    <div class="toolbar-right">
+      <label class="client-picker no-print" id="client-picker" hidden>
+        <span data-i18n="clientLabel">Cliente</span>
+        <select id="client-select"></select>
+      </label>
+      <span id="last-sync" class="muted"></span>
+      <button id="btn-pdf" data-i18n="downloadPdf">Descargar PDF</button>
+      <button id="btn-lang" class="ghost">PT</button>
+      <button id="btn-signout" class="ghost" data-i18n="signOut">Salir</button>
+    </div>
+  </div>
+
+  <header>
+    <span class="logo-chip" id="header-product-chip"><img id="header-product-logo" hidden alt="" class="logo-sentry"></span>
+    <div class="header-text">
+      <h1 id="header-title">Seguimiento de Incidentes</h1>
+      <div class="sub" id="header-sub"></div>
+    </div>
+    <img id="client-logo" hidden alt="" class="logo-pg">
+  </header>
+
+  <div class="tabs no-print" id="tabs" role="tablist">
+    <button type="button" class="tab" data-tab="geral" data-i18n="tabGeneral">General</button>
+    <button type="button" class="tab" data-tab="incidentes" data-i18n="tabIncidents">Incidentes</button>
+    <button type="button" class="tab" data-tab="operacional" data-i18n="tabOperational">Solicitudes operacionales</button>
+    <button type="button" class="tab tab-internal" data-tab="desarrollos" data-i18n="tabDevelopments" hidden>Desarrollos</button>
+  </div>
+
+  <section id="dev-section" hidden>
+    <p class="muted dev-hint" data-i18n="devHint"></p>
+    <div class="kpis" id="dev-kpis"></div>
+    <div class="table-wrap">
+      <table id="dev-table">
+        <thead><tr id="dev-head"></tr></thead>
+        <tbody id="dev-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div id="incident-section">
+  <div class="kpis" id="kpis"></div>
+
+  <section class="sla-panel" id="sla-panel" hidden>
+    <h2 id="sla-title"></h2>
+    <div class="sla-grid" id="sla-grid"></div>
+    <p class="sla-hint" id="sla-hint"></p>
+  </section>
+
+  <h2 data-i18n="reportsTitle">Reportes del período</h2>
+  <div class="table-wrap">
+    <table id="reports-table">
+      <thead><tr id="reports-head"></tr></thead>
+      <tbody id="reports-body"></tbody>
+    </table>
+  </div>
+
+  <h2 data-i18n="detailsTitle" id="details-title">Detalle</h2>
+  <div class="table-wrap">
+    <table id="details-table">
+      <tbody id="details-body"></tbody>
+    </table>
+  </div>
+  </div>
+
+  <footer data-i18n="footer"></footer>
+</div>
+
+<script>
+  // Fallback independente do módulo: se o app não assumir em 6s (SDK fora do ar, config vazia), mostra o login em vez de travar no "Cargando".
+  setTimeout(function () {
+    var loading = document.getElementById('view-loading');
+    if (loading && !loading.hidden) {
+      loading.hidden = true;
+      document.getElementById('view-login').hidden = false;
+    }
+  }, 6000);
+</script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

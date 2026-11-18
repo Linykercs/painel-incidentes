@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // E-mail verificado é exigido em todos os caminhos: sem isso qualquer um
+    // criaria uma conta com e-mail alheio e cairia na regra de domínio.
+    function isVerified() {
+      return request.auth != null
+        && request.auth.token.email is string
+        && request.auth.token.email_verified == true;
+    }
+
+    function isB2list() {
+      return isVerified() && request.auth.token.email.matches('.*@b2list[.]com');
+    }
+
+    // Domínio do próprio cliente: quem tem e-mail da empresa entra direto no
+    // painel dela, e só nela. Combinado com a gestão de contas em 05/08 pra Minerva,
+    // que vai absorver o atendimento N1 e cujo time cresce sem passar por nós.
+    // Cliente novo precisa entrar aqui de propósito: a lista é explícita pra
+    // ninguém ganhar acesso por acidente de configuração. O Grupo Vila ficou
+    // de fora a pedido meu em 03/09: lá o acesso é só e-mail da B2List
+    // mais allowlist nominal, ninguém entra por ter e-mail da empresa.
+    function isClientDomain(clientId) {
+      return isVerified()
+        && clientId == 'minerva'
+        && request.auth.token.email.matches('.*@minervafoods[.]com');
+    }
+
+    function isAllowlisted() {
+      return exists(/databases/$(database)/documents/allowlist/$(request.auth.token.email));
+    }
+
+    function allowlistDoc() {
+      return get(/databases/$(database)/documents/allowlist/$(request.auth.token.email)).data;
+    }
+
+    // Isolamento entre clientes. Quem é da B2List vê todos; quem tem e-mail do
+    // domínio de um cliente vê só aquele; convidado avulso vê só os clientes
+    // listados no campo `clients` do seu documento da allowlist. Documento sem
+    // esse campo não libera nada: o padrão é negar, pra um convidado da P&G
+    // nunca enxergar dado da Minerva por causa de um preenchimento esquecido.
+    function canReadClient(clientId) {
+      return isVerified()
+        && (
+          isB2list()
+          || isClientDomain(clientId)
+          || (
+            isAllowlisted()
+            && allowlistDoc().clients is list
+            && allowlistDoc().clients.hasAny([clientId])
+          )
+        );
+    }
+
+    match /clients/{clientId}/{document=**} {
+      allow read: if canReadClient(clientId);
+      allow write: if false;
+    }
+
+    // Dados internos da B2List sobre um cliente (aba Desarrollos, com os
+    // status do board de PS). Fica fora de /clients de propósito: a regra de
+    // lá libera tudo abaixo para convidados e domínio do cliente.
+    match /internal/{clientId}/{document=**} {
+      allow read: if isB2list();
+      allow write: if false;
+    }
+
+    match /allowlist/{email} {
+      allow read: if request.auth != null && request.auth.token.email == email;
+      allow write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

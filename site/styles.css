@@ -1,0 +1,318 @@
+/* Design tokens do b2app-theme (B2List) aplicados ao painel de incidentes.
+   Fonte: Nunito. Primário #0055D0. Texto #202224. Fundo #F5F5F5. */
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('assets/fonts/Nunito-Variable.ttf') format('truetype');
+  font-weight: 200 1000;
+  font-display: swap;
+}
+
+:root {
+  --primary: rgba(0, 85, 208, 1);
+  --primary-dark: rgba(2, 59, 161, 1);
+  --primary-20: rgba(98, 160, 217, 0.2);
+  --base-100: rgba(32, 34, 36, 1);
+  --base-80: rgba(32, 34, 36, 0.8);
+  --base-60: rgba(32, 34, 36, 0.6);
+  --base-40: rgba(32, 34, 36, 0.4);
+  --base-20: rgba(32, 34, 36, 0.2);
+  --base-10: rgba(32, 34, 36, 0.1);
+  --gray-20: rgba(240, 245, 255, 1);
+  --gray-50: rgb(245, 245, 245);
+  --gray-100: rgb(234, 236, 236);
+  --gray-200: rgb(223, 226, 226);
+  --green-10: rgba(13, 188, 93, 0.1);
+  --green-200: rgba(11, 151, 75, 1);
+  --red-10: rgba(255, 92, 92, 0.1);
+  --reddish-100: rgba(201, 68, 68, 1);
+  --yellow-20: rgba(255, 182, 40, 0.2);
+  --yellow-dark: rgb(158, 106, 3);
+  --white: #fff;
+  --shadow-card: 0px 0.552381px 1.10476px rgba(32, 34, 36, 0.16);
+  --shadow-card-high: 0px 4.41905px 8.83809px rgba(32, 34, 36, 0.16);
+  --shadow-button: 0px 1.10476px 2.20952px rgba(32, 34, 36, 0.16);
+  --shadow-table: 0px 2px 3.008px rgba(32, 34, 36, 0.1);
+  --radius: 0.5rem;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* O atributo hidden precisa vencer qualquer display definido abaixo (flex etc). */
+[hidden] { display: none !important; }
+
+body {
+  font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+  color: var(--base-100);
+  background: var(--gray-50);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+#view-app { max-width: 1080px; margin: 0 auto; padding: 24px 32px 48px; }
+
+.center-box {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-50);
+}
+
+.login-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card-high);
+  padding: 36px 32px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.login-card h1 { font-size: 17px; color: var(--base-100); font-weight: 700; text-align: center; }
+.login-card label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--base-60); font-weight: 600; }
+.login-card input {
+  padding: 10px 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--white);
+  color: var(--base-100);
+}
+.login-card input:focus { outline: 2px solid var(--primary-20); border-color: var(--primary); }
+
+button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: var(--shadow-button);
+}
+button:hover { background: var(--primary-dark); }
+button.ghost {
+  background: var(--white);
+  color: var(--primary);
+  border: 1px solid var(--gray-200);
+  box-shadow: none;
+}
+button.ghost:hover { background: var(--gray-20); }
+.btn-google { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.login-sep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--base-40);
+  font-size: 12px;
+}
+.login-sep::before, .login-sep::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--gray-200);
+}
+.error { color: var(--reddish-100); font-size: 13px; }
+.muted { color: var(--base-40); font-size: 12px; }
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0 18px;
+  flex-wrap: wrap;
+}
+.toolbar label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--base-60); font-weight: 600; }
+.toolbar select {
+  padding: 8px 10px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: inherit;
+  background: var(--white);
+  color: var(--base-100);
+}
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+header {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border-left: 4px solid var(--primary);
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.header-text { flex: 1; }
+header h1 { font-size: 21px; color: var(--base-100); font-weight: 800; }
+header .sub { color: var(--base-60); margin-top: 4px; font-size: 13px; }
+
+.logo-chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--primary-dark);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+}
+.logo-sentry { height: 30px; width: auto; display: block; }
+.logo-pg { height: 48px; width: auto; }
+.login-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 6px;
+}
+.login-logos .logo-sentry { height: 24px; }
+.login-logos .logo-pg { height: 40px; }
+
+.tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.tab {
+  background: var(--white);
+  color: var(--base-60);
+  border: 1px solid var(--gray-200);
+  box-shadow: none;
+  font-size: 13px;
+  padding: 9px 16px;
+}
+.tab:hover { background: var(--gray-20); }
+.tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+/* Aba só da B2List: borda tracejada pra ninguém confundir com o que o cliente vê. */
+.tab-internal { border-style: dashed; }
+.dev-hint { margin: 0 0 14px; font-size: 13px; }
+
+.kpis { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+.kpi {
+  flex: 1;
+  min-width: 150px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 16px 18px;
+}
+.kpi .num { font-size: 28px; font-weight: 800; color: var(--primary); line-height: 1.2; }
+.kpi .label { font-size: 12px; color: var(--base-60); margin-top: 2px; font-weight: 600; }
+
+h2 { font-size: 16px; color: var(--base-100); font-weight: 800; margin: 26px 0 12px; }
+
+.table-wrap {
+  overflow-x: auto;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-table);
+}
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+th {
+  background: var(--gray-20);
+  color: var(--primary-dark);
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 800;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+td { padding: 10px 12px; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--gray-20); }
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.b-done { background: var(--green-10); color: var(--green-200); }
+.b-open { background: var(--primary-20); color: var(--primary-dark); }
+.t-issue { background: var(--red-10); color: var(--reddish-100); }
+.t-sol { background: var(--primary-20); color: var(--primary-dark); }
+.t-ext { background: var(--yellow-20); color: var(--yellow-dark); }
+.sev { display: inline-block; margin-top: 4px; font-size: 10.5px; font-weight: 800; color: var(--base-60); }
+.pending-cell { color: var(--base-40); font-style: italic; }
+.late { color: var(--reddish-100); font-weight: 700; }
+.card-link { font-size: 11px; color: var(--primary); }
+
+footer {
+  margin-top: 32px;
+  padding-top: 12px;
+  border-top: 1px solid var(--gray-200);
+  color: var(--base-40);
+  font-size: 11.5px;
+}
+
+/* A tabela de incidentes tem colunas demais para A4 em retrato: o navegador
+   cortava a direita e a gestão de contas so conseguia imprimir parte do painel (13/10).
+   Paisagem + cabecalho quebrando linha faz a tabela caber na largura. */
+@page { size: A4 landscape; margin: 10mm; }
+
+@media print {
+  body { font-size: 12px; background: #fff; }
+  th { white-space: normal; font-size: 10px; padding: 6px 8px; }
+  td { padding: 6px 8px; }
+  table { font-size: 11px; }
+  #view-app { padding: 0; max-width: none; }
+  .no-print { display: none !important; }
+  header, .kpi, .table-wrap { box-shadow: none; border: 1px solid var(--gray-200); }
+  .kpi { break-inside: avoid; }
+  tr { break-inside: avoid; }
+  tbody tr:hover td { background: transparent; }
+  .table-wrap { overflow: visible; }
+}
+
+/* Cumprimento do SLA por severidade: a P&G cobra o prazo por faixa, nao num
+   numero unico, entao cada faixa mostra o prazo contratual e o que ficou dentro. */
+.sla-panel { margin-bottom: 24px; }
+.sla-panel h2 {
+  font-size: 15px; font-weight: 700; margin: 0 0 12px; color: var(--base-100);
+}
+.sla-grid { display: flex; gap: 14px; flex-wrap: wrap; }
+.sla-cell {
+  flex: 1;
+  min-width: 150px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 16px 18px;
+}
+.sla-sev {
+  display: flex; align-items: baseline; gap: 8px;
+  font-weight: 700; font-size: 14px; color: var(--base-100); margin-bottom: 6px;
+}
+.sla-prazo { font-weight: 600; font-size: 12px; color: var(--base-60); }
+.sla-pct { font-size: 26px; font-weight: 800; color: var(--primary); line-height: 1.2; }
+.sla-pct.sla-miss { color: var(--reddish-100); }
+.sla-count { font-size: 12px; color: var(--base-60); margin-top: 2px; font-weight: 600; }
+.sla-empty { font-size: 12px; color: var(--base-40); padding: 6px 0; font-weight: 600; }
+.sla-hint { font-size: 12px; color: var(--base-60); margin: 10px 0 0; }
+
+/* Logo do cliente no cabecalho. A Minerva e bitmap com fundo branco, entao
+   segue a mesma altura da P&G pra nao desalinhar o header. */
+.logo-minerva { height: 48px; width: auto; object-fit: contain; }
+
+/* Seletor de cliente: so aparece pra quem tem mais de um liberado. */
+.client-picker { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--base-60); font-weight: 600; }
+.client-picker select { font-size: 12px; }
+
+.muted.stale { color: var(--yellow-dark); font-weight: 600; }
+
+/* Faixa do modo demonstração (site/config.js sem Firebase). */
+.demo-banner {
+  margin: 0;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 13px;
+  background: #fff4d6;
+  color: #5c4500;
+  border-bottom: 1px solid #f0d58a;
+}
+@media print { .demo-banner { display: none; } }

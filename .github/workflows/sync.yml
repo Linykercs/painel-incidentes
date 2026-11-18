@@ -1,0 +1,29 @@
+# Sincroniza os cards do ClickUp com o Firestore a cada 30 minutos.
+name: Sync ClickUp para Firestore
+
+on:
+  # Na versão pública o sync é só manual: sem os secrets ele não tem o que ler.
+  # Para rodar sozinho, acrescente um agendamento. Use minutos quebrados
+  # (ex.: '7,37 * * * *'): o agendamento do GitHub é best-effort e :00 e :30
+  # são os horários mais disputados, então um */30 costuma atrasar horas.
+  workflow_dispatch:
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: node sync/index.js
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GCHAT_WEBHOOK: ${{ secrets.GCHAT_WEBHOOK }}
